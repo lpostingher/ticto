@@ -13,5 +13,5 @@ Auth::routes(['register' => false]);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('users', UserController::class)
-    ->except('view')
-    ->middleware('auth');
+    ->except('show')
+    ->middleware(['auth', 'admin']);
