@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRoleEnum;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -33,21 +34,19 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.form', [
+            'pageTitle' => 'Novo usuário',
+            'user' => User::make(),
+            'action' => route('users.store'),
+            'method' => 'POST',
+            'roles' => UserRoleEnum::asSelectArray()
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
+    public function store(StoreUserRequest $request)
     {
         //
     }
