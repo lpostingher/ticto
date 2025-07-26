@@ -218,6 +218,9 @@
                         if (response.complement) {
                             $('#complement').val(response.complement);
                         }
+                    },
+                    error: function() {
+                        $('#zip_code_search').prop('disabled', false);
                     }
                 })
             }

@@ -35,6 +35,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : ''}}" href="{{ route('users.index') }}">{{ __('Usuários') }}</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('timeEntries.*') ? 'active' : ''}}" href="{{ route('timeEntries.index') }}">{{ __('Registros') }}</a>
+                                </li>
                             @endif
                         @endauth
                     </ul>

@@ -18,7 +18,9 @@
         "vite": "^7.0.4"
     },
     "dependencies": {
+        "daterangepicker": "^3.1.0",
         "jquery": "^3.7.1",
-        "jquery-mask-plugin": "^1.14.16"
+        "jquery-mask-plugin": "^1.14.16",
+        "moment": "^2.30.1"
     }
 }

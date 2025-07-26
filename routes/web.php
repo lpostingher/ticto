@@ -23,3 +23,6 @@ Route::get('/getAddressByZipCode/{zip_code}', GetAddressByZipCode::class);
 Route::post('timeEntries', [TimeEntryController::class, 'store'])
     ->middleware(['auth'])
     ->name('timeEntries.store');
+Route::get('timeEntries', [TimeEntryController::class, 'index'])
+    ->middleware(['auth', 'admin'])
+    ->name('timeEntries.index');
