@@ -1,23 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>
+    <div class="container-sm mt-3 bg-white shadow rounded p-4 text-center">
+        <div class="row mb-3">
+            <div class="col-sm">
+                <h1>Registro de ponto eletrônico</h1>
+            </div>
+        </div>
+        <div class="row mb-3 align-items-center justify-content-center">
+            <div class="col-sm-auto">
+                <form action="{{ route('timeEntries.store') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success">
+                        REGISTRAR {{ $nextTimeEntryType }}
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="row mb-3 align-items-center justify-content-center">
+            <div class="col-sm">
+                <span>Último registro:</span>
+                <span>{{ $lastTimeEntryTimestamp }}</span>
+                <span>{{ $lastTimeEntryType }}</span>
             </div>
         </div>
     </div>
-</div>
 @endsection

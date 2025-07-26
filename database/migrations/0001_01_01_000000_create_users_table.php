@@ -28,6 +28,8 @@ return new class extends Migration
             $table->string('number')->nullable();
             $table->string('complement')->nullable();
             $table->string('district')->nullable();
+            $table->smallInteger('last_time_entry_type')->nullable();
+            $table->timestamp('last_time_entry_timestamp')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
