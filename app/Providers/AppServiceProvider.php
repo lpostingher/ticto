@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Adapters\ViaCepAdapter;
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\URL;
@@ -14,7 +16,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind('via-cep', function () {
+            return new ViaCepAdapter(new Client(
+                [
+                    'base_uri' => config('services.via-cep.url'),
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                    ]
+                ]
+            ));
+        });
     }
 
     /**

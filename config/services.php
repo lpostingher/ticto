@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'via-cep' => [
+        'url' => env('VIA_CEP_URL'),
+    ],
+
 ];

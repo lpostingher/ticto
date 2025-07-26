@@ -77,7 +77,7 @@
                         <input type="text" name="zip_code"
                             class="form-control cep @error('zip_code') is-invalid @enderror()" id="validationZipCode"
                             aria-describedby="validationZipCodeFeedback" value="{{ old('zip_code', $user->zip_code) }}">
-                        <button type="button" class="btn btn-outline-secondary">
+                        <button type="button" class="btn btn-outline-secondary" id="zip_code_search">
                             Buscar
                         </button>
                         <div id="validationZipCodeFeedback" class="invalid-feedback">
@@ -89,11 +89,17 @@
                 </div>
                 <div class="col-sm-3">
                     <label for="city" class="form-label">Cidade</label>
-                    <input type="text" name="city" id="city" class="form-control" disabled>
+                    <input type="text" name="city" id="city" class="form-control @error('city_id') is-invalid @enderror" value="{{ $city ?? '' }}" disabled>
+                    @error('city_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                    <input type="hidden" name="city_id" id="city_id" value="{{ old('city_id', $user->city_id) }}">
                 </div>
                 <div class="col-sm-3">
                     <label for="state" class="form-label">Estado</label>
-                    <input type="text" name="state" id="state" class="form-control" disabled>
+                    <input type="text" name="state" id="state" class="form-control" value="{{ $state ?? '' }}" disabled>
                 </div>
             </div>
             <div class="row mb-3">
@@ -152,3 +158,33 @@
         </form>
     </div>
 @endsection
+
+@push('scripts')
+    <script type="module">
+        $(function () {
+            $('#zip_code_search').on('click', function () {
+                $('#zip_code_search').prop('disabled', true);
+                const zipCode = $('#validationZipCode').val();
+
+                if (!zipCode) {
+                    $('#zip_code_search').prop('disabled', false);
+                    return;
+                }
+
+                $.ajax({
+                    url: '/getAddressByZipCode/' + zipCode,
+                    method: 'GET',
+                    success: function (response) {
+                        $('#zip_code_search').prop('disabled', false);
+                        $('#city').val(response.city);
+                        $('#city_id').val(response.city_id);
+                        $('#state').val(response.state);
+                        $('#street').val(response.street);
+                        $('#district').val(response.district);
+                        $('#complement').val(response.complement);
+                    }
+                })
+            })
+        });
+    </script>
+@endpush
