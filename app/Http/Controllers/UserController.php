@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Enums\UserRoleEnum;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Models\City;
+use App\Models\State;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -48,7 +51,13 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['password'] = bcrypt($data['password']);
+
+        User::create($data);
+
+        return redirect()->route('users.index')
+            ->with('status', ['class' => 'success', 'message' => 'Usuário criado com sucesso!']);
     }
 
     /**
@@ -56,15 +65,37 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $city = City::find($user->city_id);
+        $state = State::find($city->state_id);
+
+        return view('users.form', [
+            'pageTitle' => 'Editar usuário',
+            'user' => $user,
+            'action' => route('users.update', $user),
+            'method' => 'PUT',
+            'roles' => UserRoleEnum::asSelectArray(),
+            'city' => $city->name,
+            'state' => "$state->name ($state->acronym)"
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $data = $request->validated();
+
+        if (isset($data['password']) && $data['password']) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']);
+        }
+
+        $user->update($data);
+
+        return redirect()->route('users.index')
+            ->with('status', ['class' => 'success', 'message' => 'Usuário atualizado com sucesso!']);
     }
 
     /**

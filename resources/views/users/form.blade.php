@@ -10,6 +10,9 @@
         <form action="{{ $action }}" method="POST">
             @csrf
             @method($method)
+            @if ($user->id)
+                <input type="hidden" name="id" value="{{ $user->id }}">
+            @endif
             <div class="row mb-3">
                 <div class="col-sm-3">
                     <label for="name" class="form-label">Nome</label>
@@ -89,7 +92,8 @@
                 </div>
                 <div class="col-sm-3">
                     <label for="city" class="form-label">Cidade</label>
-                    <input type="text" name="city" id="city" class="form-control @error('city_id') is-invalid @enderror" value="{{ $city ?? '' }}" disabled>
+                    <input type="text" name="city" id="city"
+                        class="form-control @error('city_id') is-invalid @enderror" value="{{ $city ?? '' }}" disabled>
                     @error('city_id')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -99,7 +103,8 @@
                 </div>
                 <div class="col-sm-3">
                     <label for="state" class="form-label">Estado</label>
-                    <input type="text" name="state" id="state" class="form-control" value="{{ $state ?? '' }}" disabled>
+                    <input type="text" name="state" id="state" class="form-control" value="{{ $state ?? '' }}"
+                        disabled>
                 </div>
             </div>
             <div class="row mb-3">
@@ -150,6 +155,28 @@
                     @enderror
                 </div>
             </div>
+            <div class="row mt-4">
+                <div class="col-sm-">
+                    <h5>Definição de senha</h5>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-3">
+                    <label for="password" class="form-label">Senha</label>
+                    <input type="password" name="password" id="password"
+                        class="form-control @error('password') is-invalid @enderror" autocomplete="one-time-code">
+                    @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="col-sm-3">
+                    <label for="password_confirmation" class="form-label">Confirmar Senha</label>
+                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control"
+                        autocomplete="one-time-code">
+                </div>
+            </div>
             <div class="row">
                 <div class="col-sm-auto">
                     <button type="submit" class="btn btn-primary">Salvar</button>
@@ -161,8 +188,8 @@
 
 @push('scripts')
     <script type="module">
-        $(function () {
-            $('#zip_code_search').on('click', function () {
+        $(function() {
+            function fetchAddress() {
                 $('#zip_code_search').prop('disabled', true);
                 const zipCode = $('#validationZipCode').val();
 
@@ -174,17 +201,34 @@
                 $.ajax({
                     url: '/getAddressByZipCode/' + zipCode,
                     method: 'GET',
-                    success: function (response) {
+                    success: function(response) {
                         $('#zip_code_search').prop('disabled', false);
                         $('#city').val(response.city);
                         $('#city_id').val(response.city_id);
                         $('#state').val(response.state);
-                        $('#street').val(response.street);
-                        $('#district').val(response.district);
-                        $('#complement').val(response.complement);
+
+                        if (response.street) {
+                            $('#street').val(response.street);
+                        }
+
+                        if (response.district) {
+                            $('#district').val(response.district);
+                        }
+
+                        if (response.complement) {
+                            $('#complement').val(response.complement);
+                        }
                     }
                 })
-            })
+            }
+
+            $('#zip_code_search').on('click', function() {
+                fetchAddress();
+            });
+
+            @if (!$user->id && old('zip_code'))
+                fetchAddress();
+            @endif
         });
     </script>
 @endpush

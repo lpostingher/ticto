@@ -27,7 +27,7 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'taxvat_number' => ['required', 'string', new TaxvatNumberRule],
+            'taxvat_number' => ['required', 'string', new TaxvatNumberRule, 'unique:users'],
             'email' => ['required', 'email', 'unique:users'],
             'role' => ['required', 'string', new EnumValue(UserRoleEnum::class, false)],
             'birth_date' => ['required', 'date', 'before_or_equal:today'],
@@ -37,6 +37,7 @@ class StoreUserRequest extends FormRequest
             'number' => ['required', 'string', 'max:100'],
             'district' => ['required', 'string', 'max:255'],
             'complement' => ['nullable', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
 
