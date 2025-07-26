@@ -30,7 +30,13 @@ class StoreUserRequest extends FormRequest
             'taxvat_number' => ['required', 'string', new TaxvatNumberRule],
             'email' => ['required', 'email', 'unique:users'],
             'role' => ['required', 'string', new EnumValue(UserRoleEnum::class, false)],
-            'birth_date' => ['required', 'date'],
+            'birth_date' => ['required', 'date', 'before_or_equal:today'],
+            'zip_code' => ['required', 'string', 'min:8', 'max:8'],
+            'city_id' => ['required', 'exists:cities,id'],
+            'street' => ['required', 'string', 'max:255'],
+            'number' => ['required', 'string', 'max:100'],
+            'district' => ['required', 'string', 'max:255'],
+            'complement' => ['nullable', 'string', 'max:255'],
         ];
     }
 
@@ -41,6 +47,7 @@ class StoreUserRequest extends FormRequest
     {
         $this->merge([
             'taxvat_number' => preg_replace('/[^0-9]/is', '', $this->taxvat_number),
+            'zip_code' => preg_replace('/[^0-9]/is', '', $this->zip_code),
         ]);
     }
 }
