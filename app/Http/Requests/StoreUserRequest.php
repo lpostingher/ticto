@@ -30,6 +30,7 @@ class StoreUserRequest extends FormRequest
             'taxvat_number' => ['required', 'string', new TaxvatNumberRule],
             'email' => ['required', 'email', 'unique:users'],
             'role' => ['required', 'string', new EnumValue(UserRoleEnum::class, false)],
+            'birth_date' => ['required', 'date'],
         ];
     }
 
