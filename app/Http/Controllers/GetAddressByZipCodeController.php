@@ -6,10 +6,9 @@ use App\Facades\ViaCepFacade;
 use App\Http\Requests\GetAddressByZipCodeRequest;
 use App\Models\City;
 use App\Models\State;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetAddressByZipCode extends Controller
+class GetAddressByZipCodeController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -27,9 +26,6 @@ class GetAddressByZipCode extends Controller
         }
 
         $state = State::query()->find($city->state_id);
-        if (!$state) {
-            return response()->json(['message' => "Estado não encontrado para o CEP: $request->zip_code"], Response::HTTP_BAD_REQUEST);
-        }
 
         return response()->json([
             'city' => $city->name,

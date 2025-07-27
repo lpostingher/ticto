@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\GetAddressByZipCode;
+use App\Http\Controllers\GetAddressByZipCodeController;
 use App\Http\Controllers\TimeEntryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +18,7 @@ Route::resource('users', UserController::class)
     ->except('show')
     ->middleware(['auth', 'admin']);
 
-Route::get('/getAddressByZipCode/{zip_code}', GetAddressByZipCode::class);
+Route::get('/getAddressByZipCode/{zip_code}', GetAddressByZipCodeController::class)->name('getAddressByZipCode');
 
 Route::post('timeEntries', [TimeEntryController::class, 'store'])
     ->middleware(['auth'])
