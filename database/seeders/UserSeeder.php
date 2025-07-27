@@ -14,10 +14,16 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
+        User::factory()->admin()->create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
-            'role' => UserRoleEnum::ADMIN
+            'taxvat_number' => '88015960061',
+            'birth_date' => '1994-10-01',
+            'city_id' => 1,
+            'zip_code' => '76954000',
+            'street' => 'Rua A',
+            'number' => '123',
+            'district' => 'Bairro A',
         ]);
     }
 }
