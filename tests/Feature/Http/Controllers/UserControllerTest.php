@@ -11,17 +11,6 @@ use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
-    private User $user;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->admin()->create();
-
-        $this->actingAs($this->user);
-    }
-
     public function testIndex(): void
     {
         User::factory()->employee()->create(['name' => 'User A', 'email' => 'userA@example.com']);
