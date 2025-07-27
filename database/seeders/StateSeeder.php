@@ -1,31 +1,17 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Database\Seeders;
 
 use App\Models\Country;
 use App\Models\State;
-use Illuminate\Console\Command;
+use Illuminate\Database\Seeder;
 
-class PopulateStatesTable extends Command
+class StateSeeder extends Seeder
 {
     /**
-     * The name and signature of the console command.
-     *
-     * @var string
+     * Run the database seeds.
      */
-    protected $signature = 'app:populate-states-table';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Populate states table';
-
-    /**
-     * Execute the console command.
-     */
-    public function handle()
+    public function run(): void
     {
         $statesFileContent = file_get_contents(base_path('database/data/states.json'));
         $states = json_decode($statesFileContent, true);
