@@ -6,10 +6,10 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
-final class UserRoleEnum extends Enum
+class UserRoleEnum extends Enum
 {
-    const EMPLOYEE = 'employee';
-    const ADMIN = 'admin';
+    public const EMPLOYEE = 'employee';
+    public const ADMIN = 'admin';
 
     public static function getDescription(mixed $value): string
     {

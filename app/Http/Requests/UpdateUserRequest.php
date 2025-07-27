@@ -2,12 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\UserRoleEnum;
-use App\Rules\Cpf;
 use App\Rules\TaxvatNumberRule;
-use BenSampo\Enum\Rules\EnumValue;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends StoreUserRequest
 {
@@ -27,7 +22,12 @@ class UpdateUserRequest extends StoreUserRequest
     public function rules(): array
     {
         return array_merge(parent::rules(), [
-            'taxvat_number' => ['required', 'string', new TaxvatNumberRule, 'unique:users,taxvat_number,' . $this->id],
+            'taxvat_number' => [
+                'required',
+                'string',
+                new TaxvatNumberRule(),
+                'unique:users,taxvat_number,' . $this->id
+            ],
             'email' => ['required', 'email', 'unique:users,email,' . $this->id],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ]);

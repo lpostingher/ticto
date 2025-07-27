@@ -18,14 +18,14 @@ class GetAddressByZipCodeController extends Controller
         $viacepResponse = ViaCepFacade::address($request->zip_code);
         if (isset($viacepResponse['error']) && $viacepResponse['error'] === true) {
             return response()->json([
-                'message' => "Falha ao realizar a busca do CEP: $request->zip_code"
+                'message' => "Falha ao realizar a busca do CEP: {$request->zip_code}"
             ], Response::HTTP_BAD_REQUEST);
         }
 
         $city = City::query()->where('ibge_code', $viacepResponse['ibge'])->first();
         if (!$city) {
             return response()->json([
-                'message' => "Cidade não encontrada para o CEP: $request->zip_code"
+                'message' => "Cidade não encontrada para o CEP: {$request->zip_code}"
             ], Response::HTTP_BAD_REQUEST);
         }
 
@@ -34,7 +34,7 @@ class GetAddressByZipCodeController extends Controller
         return response()->json([
             'city' => $city->name,
             'city_id' => $city->id,
-            'state' => "$state->name ($state->acronym)",
+            'state' => "{$state->name} ({$state->acronym})",
             'street' => $viacepResponse['logradouro'],
             'district' => $viacepResponse['bairro'],
             'complement' => $viacepResponse['complemento'],

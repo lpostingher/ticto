@@ -43,29 +43,18 @@ class TimeEntryController extends Controller
         $query = $this->buildMainStructure();
 
         if ($request->user_id) {
-            $query .= " and te.user_id = $request->user_id";
+            $query .= " and te.user_id = {$request->user_id}";
         }
 
         if ($request->role) {
-            $query .=  " and users.role = '$request->role'";
+            $query .= " and users.role = '{$request->role}'";
         }
 
         if ($request->time_entry_type) {
-            $query .= " and te.type = $request->time_entry_type";
+            $query .= " and te.type = {$request->time_entry_type}";
         }
 
-        if ($request->timestamp) {
-            $period = explode(' - ', $request->timestamp);
-            $query .= ' and te.timestamp between "'
-                . Carbon::createFromFormat('d/m/Y H:i:s', $period[0])->format('Y-m-d H:i:s')
-                . '" and "'
-                . Carbon::createFromFormat('d/m/Y H:i:s', $period[1])->format('Y-m-d H:i:s') . '"';
-        } else {
-            $query .= ' and te.timestamp between "'
-                . Carbon::now()->startOfDay()->format('Y-m-d H:i:s')
-                . '" and "'
-                . Carbon::now()->endOfDay()->format('Y-m-d H:i:s') . '"';
-        }
+        $this->buildPeriodFilter($request, $query);
 
         $query .= ' order by te.timestamp desc';
 
@@ -100,5 +89,21 @@ class TimeEntryController extends Controller
         $query .= ' where 1 = 1';
 
         return $query;
+    }
+
+    private function buildPeriodFilter(Request $request, string &$query)
+    {
+        if ($request->timestamp) {
+            $period = explode(' - ', $request->timestamp);
+            $query .= ' and te.timestamp between "'
+                . Carbon::createFromFormat('d/m/Y H:i:s', $period[0])->format('Y-m-d H:i:s')
+                . '" and "'
+                . Carbon::createFromFormat('d/m/Y H:i:s', $period[1])->format('Y-m-d H:i:s') . '"';
+        } else {
+            $query .= ' and te.timestamp between "'
+                . Carbon::now()->startOfDay()->format('Y-m-d H:i:s')
+                . '" and "'
+                . Carbon::now()->endOfDay()->format('Y-m-d H:i:s') . '"';
+        }
     }
 }

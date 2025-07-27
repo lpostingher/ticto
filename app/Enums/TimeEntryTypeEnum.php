@@ -6,10 +6,10 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
-final class TimeEntryTypeEnum extends Enum
+class TimeEntryTypeEnum extends Enum
 {
-    const IN = 1;
-    const OUT = 2;
+    public const IN = 1;
+    public const OUT = 2;
 
     public static function getDescription($value): string
     {
