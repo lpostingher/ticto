@@ -1,32 +1,18 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Database\Seeders;
 
 use App\Models\City;
-use App\Models\Country;
 use App\Models\State;
-use Illuminate\Console\Command;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 
-class PopulateCitiesTable extends Command
+class CitySeeder extends Seeder
 {
     /**
-     * The name and signature of the console command.
-     *
-     * @var string
+     * Run the database seeds.
      */
-    protected $signature = 'app:populate-cities-table';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Populate cities table';
-
-    /**
-     * Execute the console command.
-     */
-    public function handle()
+    public function run(): void
     {
         $citiesFileContent = file_get_contents(base_path('database/data/cities.json'));
         $cities = json_decode($citiesFileContent, true);
