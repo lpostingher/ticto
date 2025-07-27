@@ -7,6 +7,7 @@ use App\Enums\UserRoleEnum;
 use App\Models\TimeEntry;
 use App\Models\User;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class TimeEntryControllerTest extends TestCase
@@ -120,5 +121,14 @@ class TimeEntryControllerTest extends TestCase
             'user_id' => $user->id,
             'type' => TimeEntryTypeEnum::OUT,
         ]);
+    }
+
+    public function testShouldBeAdmin(): void
+    {
+        $user = User::factory()->employee()->create();
+
+        $this->actingAs($user)
+            ->get(route('timeEntries.index'))
+            ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 }

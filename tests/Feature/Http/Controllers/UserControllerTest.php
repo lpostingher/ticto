@@ -7,6 +7,7 @@ use App\Models\City;
 use App\Models\State;
 use App\Models\User;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
@@ -199,6 +200,15 @@ class UserControllerTest extends TestCase
             ->assertSessionHas('status', ['class' => 'success', 'message' => 'Usuário removido com sucesso!']);
 
         $this->assertDatabaseMissing('users', ['id' => $user->id]);
+    }
+
+    public function testShouldBeAdmin(): void
+    {
+        $user = $this->getDefaultUser();
+
+        $this->actingAs($user)
+            ->get(route('users.index'))
+            ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     private function getDefaultUser(): User
