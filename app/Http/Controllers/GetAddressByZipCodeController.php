@@ -17,12 +17,16 @@ class GetAddressByZipCodeController extends Controller
     {
         $viacepResponse = ViaCepFacade::address($request->zip_code);
         if (isset($viacepResponse['error']) && $viacepResponse['error'] === true) {
-            return response()->json(['message' => "Falha ao realizar a busca do CEP: $request->zip_code"], Response::HTTP_BAD_REQUEST);
+            return response()->json([
+                'message' => "Falha ao realizar a busca do CEP: $request->zip_code"
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         $city = City::query()->where('ibge_code', $viacepResponse['ibge'])->first();
         if (!$city) {
-            return response()->json(['message' => "Cidade não encontrada para o CEP: $request->zip_code"], Response::HTTP_BAD_REQUEST);
+            return response()->json([
+                'message' => "Cidade não encontrada para o CEP: $request->zip_code"
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         $state = State::query()->find($city->state_id);

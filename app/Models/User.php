@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 use App\Enums\UserRoleEnum;
 use App\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;

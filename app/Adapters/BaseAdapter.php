@@ -9,5 +9,7 @@ use GuzzleHttp\Client;
  */
 class BaseAdapter
 {
-    public function __construct(protected readonly Client $client) {}
+    public function __construct(protected readonly Client $client)
+    {
+    }
 }
