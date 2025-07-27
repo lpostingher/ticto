@@ -20,8 +20,8 @@ class UserController extends Controller
         $users = User::query()
             ->when($request->search, function ($query) use ($request) {
                 $query->where(function ($query) use ($request) {
-                    $query->orWhere('name', 'like', "%$request->search%")
-                        ->orWhere('email', 'like', "%$request->search%");
+                    $query->orWhere('name', 'like', "%{$request->search}%")
+                        ->orWhere('email', 'like', "%{$request->search}%");
                 });
             })
             ->paginate(10);
@@ -75,7 +75,7 @@ class UserController extends Controller
             'method' => 'PUT',
             'roles' => UserRoleEnum::asSelectArray(),
             'city' => $city->name,
-            'state' => "$state->name ($state->acronym)"
+            'state' => "{$state->name} ({$state->acronym})"
         ]);
     }
 

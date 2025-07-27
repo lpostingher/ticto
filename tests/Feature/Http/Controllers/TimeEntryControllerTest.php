@@ -21,16 +21,40 @@ class TimeEntryControllerTest extends TestCase
         parent::setUp();
 
         $this->userA = User::factory()->employee()->create();
-        TimeEntry::create(['user_id' => $this->userA->id, 'type' => TimeEntryTypeEnum::IN, 'timestamp' => Carbon::now()->subMinutes(40)]);
-        TimeEntry::create(['user_id' => $this->userA->id, 'type' => TimeEntryTypeEnum::OUT, 'timestamp' => Carbon::now()->subMinutes(30)]);
+        TimeEntry::create([
+            'user_id' => $this->userA->id,
+            'type' => TimeEntryTypeEnum::IN,
+            'timestamp' => Carbon::now()->subMinutes(40)
+        ]);
+        TimeEntry::create([
+            'user_id' => $this->userA->id,
+            'type' => TimeEntryTypeEnum::OUT,
+            'timestamp' => Carbon::now()->subMinutes(30)
+        ]);
 
         $this->userB = User::factory()->employee()->create();
-        TimeEntry::create(['user_id' => $this->userB->id, 'type' => TimeEntryTypeEnum::IN, 'timestamp' => Carbon::now()->subMinutes(20)]);
-        TimeEntry::create(['user_id' => $this->userB->id, 'type' => TimeEntryTypeEnum::OUT, 'timestamp' => Carbon::now()->subMinutes(10)]);
+        TimeEntry::create([
+            'user_id' => $this->userB->id,
+            'type' => TimeEntryTypeEnum::IN,
+            'timestamp' => Carbon::now()->subMinutes(20)
+        ]);
+        TimeEntry::create([
+            'user_id' => $this->userB->id,
+            'type' => TimeEntryTypeEnum::OUT,
+            'timestamp' => Carbon::now()->subMinutes(10)
+        ]);
 
         $this->userC = User::factory()->admin()->create();
-        TimeEntry::create(['user_id' => $this->userC->id, 'type' => TimeEntryTypeEnum::IN, 'timestamp' => Carbon::now()->subMinutes(60)]);
-        TimeEntry::create(['user_id' => $this->userC->id, 'type' => TimeEntryTypeEnum::OUT, 'timestamp' => Carbon::now()->subMinutes(50)]);
+        TimeEntry::create([
+            'user_id' => $this->userC->id,
+            'type' => TimeEntryTypeEnum::IN,
+            'timestamp' => Carbon::now()->subMinutes(60)
+        ]);
+        TimeEntry::create([
+            'user_id' => $this->userC->id,
+            'type' => TimeEntryTypeEnum::OUT,
+            'timestamp' => Carbon::now()->subMinutes(50)
+        ]);
     }
 
     public function testIndex(): void
@@ -82,8 +106,16 @@ class TimeEntryControllerTest extends TestCase
     public function testIndexTimestampFilter(): void
     {
         $user = User::factory()->admin()->create();
-        TimeEntry::create(['user_id' => $user->id, 'type' => TimeEntryTypeEnum::IN, 'timestamp' => Carbon::now()->subDays(2)]);
-        TimeEntry::create(['user_id' => $user->id, 'type' => TimeEntryTypeEnum::OUT, 'timestamp' => Carbon::now()->subDays(2)]);
+        TimeEntry::create([
+            'user_id' => $user->id,
+            'type' => TimeEntryTypeEnum::IN,
+            'timestamp' => Carbon::now()->subDays(2)
+        ]);
+        TimeEntry::create([
+            'user_id' => $user->id,
+            'type' => TimeEntryTypeEnum::OUT,
+            'timestamp' => Carbon::now()->subDays(2)
+        ]);
 
         $this->get(route('timeEntries.index', []))
             ->assertOk()

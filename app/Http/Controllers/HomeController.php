@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\TimeEntryTypeEnum;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -34,8 +33,10 @@ class HomeController extends Controller
 
         return view('home', [
             'lastTimeEntryTimestamp' => $lastTimeEntryTimestamp,
-            'lastTimeEntryType' => $lastTimeEntryType ? mb_strtoupper(TimeEntryTypeEnum::getDescription($lastTimeEntryType)) : '',
-            'nextTimeEntryType' => $nextTimeEntryType ? mb_strtoupper(TimeEntryTypeEnum::getDescription($nextTimeEntryType)) : ''
+            'lastTimeEntryType' => $lastTimeEntryType ?
+                mb_strtoupper(TimeEntryTypeEnum::getDescription($lastTimeEntryType)) : '',
+            'nextTimeEntryType' => $nextTimeEntryType ?
+                mb_strtoupper(TimeEntryTypeEnum::getDescription($nextTimeEntryType)) : ''
         ]);
     }
 }

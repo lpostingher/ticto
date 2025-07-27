@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Enums\UserRoleEnum;
-use App\Rules\Cpf;
 use App\Rules\TaxvatNumberRule;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
@@ -27,7 +26,7 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'taxvat_number' => ['required', 'string', new TaxvatNumberRule, 'unique:users'],
+            'taxvat_number' => ['required', 'string', new TaxvatNumberRule(), 'unique:users'],
             'email' => ['required', 'email', 'unique:users'],
             'role' => ['required', 'string', new EnumValue(UserRoleEnum::class, false)],
             'birth_date' => ['required', 'date', 'before_or_equal:today'],
