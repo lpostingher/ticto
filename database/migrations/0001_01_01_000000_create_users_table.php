@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->foreignId('manager_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('role')->default(UserRoleEnum::EMPLOYEE);
-            $table->string('taxvat_number', 11)->nullable();
+            $table->string('taxvat_number', 11)->nullable()->unique();
             $table->date('birth_date')->nullable();
             $table->string('zip_code', 8)->nullable();
             $table->foreignId('city_id')->nullable()->constrained('cities')->onDelete('set null');

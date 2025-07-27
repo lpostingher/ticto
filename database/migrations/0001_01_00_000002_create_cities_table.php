@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('state_id')->constrained('states')->noActionOnDelete();
             $table->string('name');
-            $table->string('ibge_code', 7);
+            $table->string('ibge_code', 7)->unique();
             $table->timestamps();
         });
     }
